@@ -4,9 +4,11 @@
 class Fraction
 {
 public:
+	Fraction(int numerator);
 	Fraction(int numerator, int denominator);
-	Fraction(const Fraction& right);
-	Fraction(const Fraction&& right);
+	//Fraction(const Fraction& right);
+	//Fraction(const Fraction&& right);
+
 	friend Fraction operator+ (const Fraction& left, const Fraction& right);
 	friend Fraction operator+ (const Fraction& left, int num);
 	friend Fraction operator+ (int num, const Fraction& right);
@@ -21,12 +23,14 @@ public:
 	friend Fraction operator/ (int num, const Fraction& right);
 
 	Fraction operator+= (const Fraction& right);
-	Fraction operator-= (const Fraction& left);
+	Fraction operator-= (const Fraction& right);
+	Fraction operator*= (const Fraction& right);
+	Fraction operator/= (const Fraction& right);
 
-	void operator++ ();																	//++Fraction
-	void operator++ (int);																//Fraction++
-	void operator-- ();																	//--Fraction
-	void operator-- (int);																//Fraction--
+	Fraction operator++ ();																	//++Fraction
+	Fraction operator++ (int);																//Fraction++
+	Fraction operator-- ();																	//--Fraction
+	Fraction operator-- (int);																//Fraction--
 
 	Fraction operator-() const;
 
@@ -43,4 +47,6 @@ private:
 	void compress();
 	int m_numerator;
 	int m_denominator;
+	int m_gcd;
+	int gcd(int, int);																		//Greatest Common Divisor function
 };
