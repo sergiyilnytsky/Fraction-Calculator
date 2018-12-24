@@ -1,5 +1,6 @@
 #include "Fraction.h"
 #include <utility>									// for swap
+#include <stdexcept>								// for std::runtime_error
 
 //Fraction constructor 1
 Fraction::Fraction(int numerator) : m_numerator(numerator), m_denominator(1)
@@ -10,6 +11,8 @@ Fraction::Fraction(int numerator) : m_numerator(numerator), m_denominator(1)
 //Fraction constructor 2
 Fraction::Fraction(int numerator, int denominator) : m_numerator(numerator), m_denominator(denominator)
 {
+	if (denominator == 0)
+		throw std::runtime_error("Invalid denominator");
 	m_gcd = gcd(m_numerator, m_denominator);
 	this->compress();
 }
@@ -43,6 +46,7 @@ void Fraction::compress()
 	{
 		m_numerator = m_numerator / m_gcd;
 		m_denominator = m_denominator / m_gcd;
+		m_gcd = 1;
 	}
 }
 
@@ -113,14 +117,16 @@ Fraction operator*(int num, const Fraction& right)
 
 Fraction operator/(const Fraction& left, const Fraction& right)
 {
-	//TO DO Divide Zero exception
+	if (right.m_denominator == 0)
+		throw std::runtime_error("Invalid denominator in the right fraction");
 
 	return Fraction((left.m_numerator * right.m_denominator), (left.m_denominator * right.m_numerator));
 }
 
 Fraction operator/(const Fraction& left, int num)
 {
-	//TO DO Divide Zero exception
+	if (num == 0)
+		throw std::runtime_error("Cannot be divided by zero");
 
 	Fraction tmp(num);
 	return (left / tmp);
@@ -161,8 +167,7 @@ Fraction Fraction::operator/= (const Fraction& right)
 
 Fraction Fraction::operator++()
 {
-	Fraction tmp(this->m_numerator, this->m_denominator);
-	return (tmp += 1);
+	return *this = (*this + 1);
 }
 
 Fraction Fraction::operator++(int)
@@ -174,8 +179,7 @@ Fraction Fraction::operator++(int)
 
 Fraction Fraction::operator--()
 {
-	Fraction tmp(this->m_numerator, this->m_denominator);
-	return (tmp -= 1);
+	return *this = (*this - 1);
 }
 
 Fraction Fraction::operator--(int)
