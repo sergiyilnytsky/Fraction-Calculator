@@ -113,14 +113,14 @@ Fraction operator*(int num, const Fraction& right)
 
 Fraction operator/(const Fraction& left, const Fraction& right)
 {
-	//TO DO Divide Zero excepsion
+	//TO DO Divide Zero exception
 
 	return Fraction((left.m_numerator * right.m_denominator), (left.m_denominator * right.m_numerator));
 }
 
 Fraction operator/(const Fraction& left, int num)
 {
-	//TO DO Divide Zero excepsion
+	//TO DO Divide Zero exception
 
 	Fraction tmp(num);
 	return (left / tmp);
@@ -161,5 +161,89 @@ Fraction Fraction::operator/= (const Fraction& right)
 
 Fraction Fraction::operator++()
 {
+	Fraction tmp(this->m_numerator, this->m_denominator);
+	return (tmp += 1);
+}
 
+Fraction Fraction::operator++(int)
+{
+	Fraction tmp(this->m_numerator, this->m_denominator);
+	++(*this);
+	return tmp;
+}
+
+Fraction Fraction::operator--()
+{
+	Fraction tmp(this->m_numerator, this->m_denominator);
+	return (tmp -= 1);
+}
+
+Fraction Fraction::operator--(int)
+{
+	Fraction tmp(this->m_numerator, this->m_denominator);
+	--(*this);
+	return tmp;
+}
+
+Fraction Fraction::operator-() const
+{
+	return Fraction(-(this->m_numerator), this->m_denominator);
+}
+
+std::ostream& operator<< (std::ostream &out, const Fraction &fraction)
+{
+	out << fraction.m_numerator << "/" << fraction.m_denominator;
+	return out;
+}
+
+std::istream& operator>> (std::istream &in, Fraction &fraction)
+{
+	char dummy;
+	in >> fraction.m_numerator >> dummy >> fraction.m_denominator;
+	return in;
+}
+
+bool operator== (const Fraction &left, const Fraction &right)
+{
+	if (left.m_denominator == right.m_denominator)
+		return (left.m_numerator == right.m_numerator) ? true : false;
+	else
+		return ((left.m_numerator * right.m_numerator) == (right.m_numerator * left.m_denominator)) ? true : false;
+}
+
+bool operator!= (const Fraction &left, const Fraction &right)
+{
+	return (left == right) ? false : true;
+}
+
+bool operator< (const Fraction &left, const Fraction &right)
+{
+	if (left.m_denominator == right.m_denominator)
+		return (left.m_numerator < right.m_numerator) ? true : false;
+	else
+		return ((left.m_numerator * right.m_numerator) < (right.m_numerator * left.m_denominator)) ? true : false;
+}
+
+bool operator<= (const Fraction &left, const Fraction &right)
+{
+	if (left.m_denominator == right.m_denominator)
+		return (left.m_numerator <= right.m_numerator) ? true : false;
+	else
+		return ((left.m_numerator * right.m_numerator) <= (right.m_numerator * left.m_denominator)) ? true : false;
+}
+
+bool operator> (const Fraction &left, const Fraction &right)
+{
+	if (left.m_denominator == right.m_denominator)
+		return (left.m_numerator > right.m_numerator) ? true : false;
+	else
+		return ((left.m_numerator * right.m_numerator) > (right.m_numerator * left.m_denominator)) ? true : false;
+}
+
+bool operator>= (const Fraction &left, const Fraction &right)
+{
+	if (left.m_denominator == right.m_denominator)
+		return (left.m_numerator >= right.m_numerator) ? true : false;
+	else
+		return ((left.m_numerator * right.m_numerator) >= (right.m_numerator * left.m_denominator)) ? true : false;
 }
